@@ -100,17 +100,17 @@ class Player {
     setPoints(p) { this.points = p; }
     
     // Key input setters
-    keyDown(b) { this.keyDown = b; }
-    keyUp(b) { this.keyUp = b; }
-    keyRight(b) { this.keyRight = b; }
-    keyLeft(b) { this.keyLeft = b; }
+    setKeyDown(b) { this.keyDown = b; }
+    setKeyUp(b) { this.keyUp = b; }
+    setKeyRight(b) { this.keyRight = b; }
+    setKeyLeft(b) { this.keyLeft = b; }
     
-    dirRight() {
+    setDirRight() {
         this.dirRight = true;
         this.dirLeft = false;
     }
     
-    dirLeft() {
+    setDirLeft() {
         this.dirLeft = true;
         this.dirRight = false;
     }
@@ -136,8 +136,8 @@ class Player {
      */
     die() {
         this.alive = false;
-        this.keyLeft = false;
-        this.keyRight = false;
+        this.setKeyLeft(false);
+        this.setKeyRight(false);
     }
     
     /**
@@ -578,11 +578,11 @@ class Player {
         this.yV = 0;
         this.doubleX = this.x;
         
-        this.keyDown = false;
-        this.keyUp = false;
-        this.keyLeft = false;
+        this.setKeyDown(false);
+        this.setKeyUp(false);
+        this.setKeyLeft(false);
         if (this.playerNo === 1) this.dirLeft = true;
-        this.keyRight = false;
+        this.setKeyRight(false);
         this.jumping = false;
         this.falling = false;
         
