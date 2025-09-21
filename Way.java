@@ -345,7 +345,7 @@ public class Way extends JFrame implements Runnable, KeyListener, MouseListener
 					t.sleep(sleeptime*2);
 				}
 				catch(InterruptedException ie){}
-			}//gameStatePause´
+			}//gameStatePause
 
 			while(gameStateEnd)
 			{

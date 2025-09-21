@@ -56,7 +56,7 @@ public class Box
 		{
 			xV = (Math.random()*6-3); //6-3
 
-			//Some boxes are REALLY FaST!!!!!!!!!!!!!!!! (so called rännil)
+			//Some boxes are REALLY FaST!!!!!!!!!!!!!!!! (so called ronnil)
 			if((int)(Math.random()*30) == 1)  xV = 30;
 
 			//Gives us xV and xVStart with one decimal
