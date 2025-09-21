@@ -721,7 +721,7 @@ public class Player
 	}
 
 	/**
-	Checks if player has collided with an item and thus caught it¨
+	Checks if player has collided with an item and thus caught it
 	*/
 	public void checkItemCatch(Item item, Box[] boxes)
 	{

@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Way Game Unit Tests</title>
+    <style>
+        body {
+            font-family: monospace;
+            background-color: #f0f0f0;
+            padding: 20px;
+        }
+        
+        .test-result {
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        
+        .test-pass {
+            background-color: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+        }
+        
+        .test-fail {
+            background-color: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+        }
+        
+        .test-summary {
+            font-weight: bold;
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 5px;
+            background-color: #e2e3e5;
+            border: 1px solid #d6d8db;
+        }
+    </style>
+</head>
+<body>
+    <h1>Way Game Unit Tests</h1>
+    <div id="test-results"></div>
+    
+    <!-- Load the game classes -->
+    <script src="js/Particle.js"></script>
+    <script src="js/Item.js"></script>
+    <script src="js/Box.js"></script>
+    <script src="js/Player.js"></script>
+    
+    <script>
+        // Simple test framework
+        let testResults = [];
+        
+        function assert(condition, message) {
+            if (condition) {
+                testResults.push({ status: 'PASS', message: message });
+                console.log('✓ PASS:', message);
+            } else {
+                testResults.push({ status: 'FAIL', message: message });
+                console.log('✗ FAIL:', message);
+            }
+        }
+        
+        function runTests() {
+            console.log('Running Way Game Unit Tests...');
+            
+            // Test Particle class
+            testParticle();
+            
+            // Test Item class
+            testItem();
+            
+            // Test Box class
+            testBox();
+            
+            // Test Player class
+            testPlayer();
+            
+            // Display results
+            displayResults();
+        }
+        
+        function testParticle() {
+            console.log('\n--- Testing Particle Class ---');
+            
+            // Mock Way class for testing
+            window.Way = { w: 1000, h: 800 };
+            
+            try {
+                const particle = new Particle();
+                
+                assert(typeof particle.getX() === 'number', 'Particle getX() returns a number');
+                assert(typeof particle.getY() === 'number', 'Particle getY() returns a number');
+                assert(typeof particle.getWidth() === 'number', 'Particle getWidth() returns a number');
+                assert(typeof particle.getHeight() === 'number', 'Particle getHeight() returns a number');
+                assert(typeof particle.getXV() === 'number', 'Particle getXV() returns a number');
+                
+                assert(particle.getWidth() >= 1 && particle.getWidth() <= 6, 'Particle width is in valid range (1-6)');
+                assert(particle.getHeight() === particle.getWidth(), 'Particle height equals width');
+                assert(particle.getXV() >= 3 && particle.getXV() <= 5, 'Particle velocity is in valid range (3-5)');
+                
+                const oldX = particle.getX();
+                particle.updatePosition();
+                assert(particle.getX() !== oldX, 'Particle position changes after updatePosition()');
+                
+                particle.setX(100);
+                assert(particle.getX() === 100, 'Particle setX() works correctly');
+                
+            } catch (error) {
+                assert(false, 'Particle class threw an error: ' + error.message);
+            }
+        }
+        
+        function testItem() {
+            console.log('\n--- Testing Item Class ---');
+            
+            try {
+                const item = new Item();
+                
+                assert(item.getWidth() === 15, 'Item width is 15');
+                assert(item.getHeight() === 15, 'Item height is 15');
+                assert(typeof item.getX() === 'number', 'Item getX() returns a number');
+                assert(typeof item.getY() === 'number', 'Item getY() returns a number');
+                
+                const bounds = item.getBounds();
+                assert(bounds.x === item.getX(), 'Item bounds x matches getX()');
+                assert(bounds.y === item.getY(), 'Item bounds y matches getY()');
+                assert(bounds.width === item.getWidth(), 'Item bounds width matches getWidth()');
+                assert(bounds.height === item.getHeight(), 'Item bounds height matches getHeight()');
+                
+                item.setX(200);
+                item.setY(300);
+                assert(item.getX() === 200, 'Item setX() works correctly');
+                assert(item.getY() === 300, 'Item setY() works correctly');
+                
+                // Test collision detection with a simple rectangle
+                const testRect = { x: 200, y: 300, width: 10, height: 10 };
+                assert(item.checkHit(testRect), 'Item collision detection works for overlapping rectangles');
+                
+                const testRectNoCollision = { x: 500, y: 500, width: 10, height: 10 };
+                assert(!item.checkHit(testRectNoCollision), 'Item collision detection works for non-overlapping rectangles');
+                
+            } catch (error) {
+                assert(false, 'Item class threw an error: ' + error.message);
+            }
+        }
+        
+        function testBox() {
+            console.log('\n--- Testing Box Class ---');
+            
+            try {
+                // Test normal box creation
+                const box = new Box();
+                
+                assert(typeof box.getX() === 'number', 'Box getX() returns a number');
+                assert(typeof box.getY() === 'number', 'Box getY() returns a number');
+                assert(typeof box.getWidth() === 'number', 'Box getWidth() returns a number');
+                assert(typeof box.getHeight() === 'number', 'Box getHeight() returns a number');
+                assert(typeof box.getXV() === 'number', 'Box getXV() returns a number');
+                assert(typeof box.getXVStart() === 'number', 'Box getXVStart() returns a number');
+                
+                assert(box.getWidth() >= 20 && box.getWidth() <= 270, 'Box width is in valid range');
+                assert(box.getHeight() >= 10 && box.getHeight() <= 90, 'Box height is in valid range');
+                assert(box.getXV() !== 0, 'Box has non-zero velocity');
+                
+                assert(typeof box.isDeadly() === 'boolean', 'Box isDeadly() returns a boolean');
+                assert(typeof box.isStopper() === 'boolean', 'Box isStopper() returns a boolean');
+                
+                const oldX = box.getX();
+                box.updatePosition();
+                assert(box.getX() !== oldX, 'Box position changes after updatePosition()');
+                
+                // Test wave box creation
+                const waveBox = new Box(100, 200, 0);
+                assert(waveBox.getWidth() === 10, 'Wave box has correct width');
+                assert(waveBox.getX() === 83, 'Wave box has correct x position (100 - 17)');
+                assert(Math.abs(waveBox.getXV()) === 8, 'Wave box has correct velocity');
+                
+            } catch (error) {
+                assert(false, 'Box class threw an error: ' + error.message);
+            }
+        }
+        
+        function testPlayer() {
+            console.log('\n--- Testing Player Class ---');
+            
+            try {
+                const player = new Player(1);
+                
+                assert(player.getPlayerNo() === 1, 'Player number is set correctly');
+                assert(player.getWidth() === 15, 'Player width is 15');
+                assert(player.getHeight() === 20, 'Player height is 20');
+                assert(player.getItemsLeft() === 10, 'Player starts with 10 items left');
+                assert(player.isAlive() === true, 'Player starts alive');
+                assert(player.hasCaughtAllItems() === false, 'Player has not caught all items initially');
+                
+                assert(player.getXSpeed() === 5, 'Player x speed is 5');
+                assert(player.getJumpSpeed() === 10, 'Player jump speed is 10');
+                
+                const bounds = player.getBounds();
+                assert(bounds.x === player.getX(), 'Player bounds x matches getX()');
+                assert(bounds.y === player.getY(), 'Player bounds y matches getY()');
+                assert(bounds.width === player.getWidth(), 'Player bounds width matches getWidth()');
+                assert(bounds.height === player.getHeight(), 'Player bounds height matches getHeight()');
+                
+                // Test item catching
+                player.itemCaught();
+                assert(player.getItemsLeft() === 9, 'Player itemCaught() decreases items left');
+                
+                // Test player death
+                player.die();
+                assert(!player.isAlive(), 'Player die() sets alive to false');
+                
+                // Test player reset
+                player.reset();
+                assert(player.isAlive(), 'Player reset() sets alive to true');
+                assert(player.getItemsLeft() === 10, 'Player reset() resets items left');
+                
+                // Test movement controls
+                player.keyLeft(true);
+                player.keyRight(false);
+                player.keyUp(false);
+                player.keyDown(false);
+                
+                // These methods should not throw errors
+                player.setStance();
+                player.moveX();
+                
+            } catch (error) {
+                assert(false, 'Player class threw an error: ' + error.message);
+            }
+        }
+        
+        function displayResults() {
+            const resultsContainer = document.getElementById('test-results');
+            let passCount = 0;
+            let failCount = 0;
+            
+            testResults.forEach(result => {
+                const div = document.createElement('div');
+                div.className = `test-result ${result.status.toLowerCase() === 'pass' ? 'test-pass' : 'test-fail'}`;
+                div.textContent = `${result.status}: ${result.message}`;
+                resultsContainer.appendChild(div);
+                
+                if (result.status === 'PASS') {
+                    passCount++;
+                } else {
+                    failCount++;
+                }
+            });
+            
+            const summary = document.createElement('div');
+            summary.className = 'test-summary';
+            summary.innerHTML = `
+                <strong>Test Summary:</strong><br>
+                Total Tests: ${testResults.length}<br>
+                Passed: ${passCount}<br>
+                Failed: ${failCount}<br>
+                Success Rate: ${((passCount / testResults.length) * 100).toFixed(1)}%
+            `;
+            resultsContainer.appendChild(summary);
+            
+            console.log(`\n=== Test Summary ===`);
+            console.log(`Total Tests: ${testResults.length}`);
+            console.log(`Passed: ${passCount}`);
+            console.log(`Failed: ${failCount}`);
+            console.log(`Success Rate: ${((passCount / testResults.length) * 100).toFixed(1)}%`);
+        }
+        
+        // Run tests when page loads
+        window.addEventListener('load', runTests);
+    </script>
+</body>
+</html>

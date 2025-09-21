@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Way - Multiplayer Game</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: black;
+            color: white;
+            font-family: monospace;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+        
+        #gameCanvas {
+            border: 1px solid white;
+            background-color: black;
+            max-width: 100vw;
+            max-height: 100vh;
+        }
+        
+        #instructions {
+            margin-top: 10px;
+            text-align: center;
+            font-size: 12px;
+        }
+        
+        .controls {
+            display: flex;
+            gap: 30px;
+            margin-top: 10px;
+        }
+        
+        .player-controls {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="gameCanvas" width="1000" height="800"></canvas>
+    
+    <div id="instructions">
+        <div class="controls">
+            <div class="player-controls">
+                <strong>Player 1</strong><br>
+                Arrow Keys: Move<br>
+                Enter: Epic Wave
+            </div>
+            <div class="player-controls">
+                <strong>Player 2</strong><br>
+                WASD: Move<br>
+                1: Epic Wave
+            </div>
+        </div>
+        <div style="margin-top: 10px;">
+            S: Start Game | I: Instructions | ESC: Pause | Q: Quit
+        </div>
+    </div>
+
+    <script src="js/Particle.js"></script>
+    <script src="js/Item.js"></script>
+    <script src="js/Box.js"></script>
+    <script src="js/Player.js"></script>
+    <script src="js/Way.js"></script>
+</body>
+</html>
