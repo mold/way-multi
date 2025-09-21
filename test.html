@@ -219,10 +219,10 @@
                 assert(player.getItemsLeft() === 10, 'Player reset() resets items left');
                 
                 // Test movement controls
-                player.keyLeft(true);
-                player.keyRight(false);
-                player.keyUp(false);
-                player.keyDown(false);
+                player.setKeyLeft(true);
+                player.setKeyRight(false);
+                player.setKeyUp(false);
+                player.setKeyDown(false);
                 
                 // These methods should not throw errors
                 player.setStance();

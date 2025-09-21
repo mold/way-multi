@@ -292,21 +292,21 @@ class Way {
                     if (player.getPlayerNo() === 1) player.setX(Way.w - 50 - player.getWidth());
                     if (player.getPlayerNo() === 2) player.setX(50);
                     player.setY(Way.h - 20);
-                    player.keyLeft(false);
-                    player.keyRight(false);
-                    player.keyUp(false);
-                    player.keyDown(false);
+                    player.setKeyLeft(false);
+                    player.setKeyRight(false);
+                    player.setKeyUp(false);
+                    player.setKeyDown(false);
                     
-                    if (player.getPlayerNo() === 1) player.dirLeft();
-                    if (player.getPlayerNo() === 2) player.dirRight();
+                    if (player.getPlayerNo() === 1) player.setDirLeft();
+                    if (player.getPlayerNo() === 2) player.setDirRight();
                     
                     player.setAlive(true);
                 } else {
                     this.gameStateRun = false;
                     this.gameStateEnd = true;
-                    player.keyLeft(false);
-                    player.keyRight(false);
-                    player.keyDown(false);
+                    player.setKeyLeft(false);
+                    player.setKeyRight(false);
+                    player.setKeyDown(false);
                 }
             }
             
@@ -584,18 +584,18 @@ class Way {
         if (this.gameStateRun) {
             // Player 1 - Arrow keys + Enter
             if (e.code === 'ArrowLeft') {
-                this.players[0].keyLeft(true);
-                this.players[0].dirLeft();
+                this.players[0].setKeyLeft(true);
+                this.players[0].setDirLeft();
             }
             if (e.code === 'ArrowRight') {
-                this.players[0].keyRight(true);
-                this.players[0].dirRight();
+                this.players[0].setKeyRight(true);
+                this.players[0].setDirRight();
             }
             if (e.code === 'ArrowUp') {
-                this.players[0].keyUp(true);
+                this.players[0].setKeyUp(true);
             }
             if (e.code === 'ArrowDown') {
-                this.players[0].keyDown(true);
+                this.players[0].setKeyDown(true);
             }
             if (e.code === 'Enter') {
                 this.players[0].epicWave(this.boxes);
@@ -603,18 +603,18 @@ class Way {
             
             // Player 2 - WASD + 1
             if (e.code === 'KeyA') {
-                this.players[1].keyLeft(true);
-                this.players[1].dirLeft();
+                this.players[1].setKeyLeft(true);
+                this.players[1].setDirLeft();
             }
             if (e.code === 'KeyD') {
-                this.players[1].keyRight(true);
-                this.players[1].dirRight();
+                this.players[1].setKeyRight(true);
+                this.players[1].setDirRight();
             }
             if (e.code === 'KeyW') {
-                this.players[1].keyUp(true);
+                this.players[1].setKeyUp(true);
             }
             if (e.code === 'KeyS') {
-                this.players[1].keyDown(true);
+                this.players[1].setKeyDown(true);
             }
             if (e.code === 'Digit1') {
                 this.players[1].epicWave(this.boxes);
@@ -624,8 +624,8 @@ class Way {
                 this.gameStatePause = true;
                 this.gameStateRun = false;
                 for (let player of this.players) {
-                    player.keyLeft(false);
-                    player.keyRight(false);
+                    player.setKeyLeft(false);
+                    player.setKeyRight(false);
                 }
                 this.timePauseStartMillis = Date.now();
             }
@@ -681,34 +681,34 @@ class Way {
         if (this.gameStateRun) {
             // Player 1 - Arrow keys
             if (e.code === 'ArrowLeft') {
-                this.players[0].keyLeft(false);
+                this.players[0].setKeyLeft(false);
                 this.players[0].setXV(0);
             }
             if (e.code === 'ArrowRight') {
-                this.players[0].keyRight(false);
+                this.players[0].setKeyRight(false);
                 this.players[0].setXV(0);
             }
             if (e.code === 'ArrowDown') {
-                this.players[0].keyDown(false);
+                this.players[0].setKeyDown(false);
             }
             if (e.code === 'ArrowUp') {
-                this.players[0].keyUp(false);
+                this.players[0].setKeyUp(false);
             }
             
             // Player 2 - WASD
             if (e.code === 'KeyA') {
-                this.players[1].keyLeft(false);
+                this.players[1].setKeyLeft(false);
                 this.players[1].setXV(0);
             }
             if (e.code === 'KeyD') {
-                this.players[1].keyRight(false);
+                this.players[1].setKeyRight(false);
                 this.players[1].setXV(0);
             }
             if (e.code === 'KeyS') {
-                this.players[1].keyDown(false);
+                this.players[1].setKeyDown(false);
             }
             if (e.code === 'KeyW') {
-                this.players[1].keyUp(false);
+                this.players[1].setKeyUp(false);
             }
         }
     }
